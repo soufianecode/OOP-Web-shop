@@ -2,6 +2,18 @@
 const express = require('express');
 const indexRoutes = require('./routes/indexRoutes');
 
+//connect to mongodb
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://test:<password>@cluster0.lyb9i.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+
 
 //express
 const app = express();
@@ -11,7 +23,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 //rendu du css en public
-app.use(express.static('public'));
+app.use(express.static('freshShopTemplate/public'));
 
 app.listen(3000, function () {
     console.log('listening on 3000')
